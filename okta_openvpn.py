@@ -25,6 +25,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 import certifi
 import urllib3
+import re
 
 from okta_pinset import okta_pinset
 
@@ -45,9 +46,9 @@ syslog_fmt = "%(module)s-%(processName)s[%(process)d]: %(name)s: %(message)s"
 syslog.setFormatter(logging.Formatter(syslog_fmt))
 log.addHandler(syslog)
 # # Uncomment to enable logging to STDERR
-# errlog = logging.StreamHandler()
-# errlog.setFormatter(logging.Formatter(syslog_fmt))
-# log.addHandler(errlog)
+errlog = logging.StreamHandler()
+errlog.setFormatter(logging.Formatter(syslog_fmt))
+log.addHandler(errlog)
 # # Uncomment to enable logging to a file
 # filelog = logging.FileHandler('/tmp/okta_openvpn.log')
 # filelog.setFormatter(logging.Formatter(syslog_fmt))
@@ -322,6 +323,9 @@ class OktaOpenVPNValidator(object):
         username = self.env.get('common_name')
         password = self.env.get('password')
         client_ipaddr = self.env.get('untrusted_ip', '0.0.0.0')
+
+        username = re.match(".*@nexttrucking.com", username).group()
+
         # Note:
         #   username_trusted is True if the username comes from a certificate
         #
