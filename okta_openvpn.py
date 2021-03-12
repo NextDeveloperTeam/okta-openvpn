@@ -270,6 +270,7 @@ class OktaOpenVPNValidator(object):
         self.mfa_push_delay_secs = "3"
 
     def read_configuration_file(self):
+        print("reading config file")
         cfg_path_defaults = [
             '/etc/openvpn/okta_openvpn.ini',
             '/etc/okta_openvpn.ini',
@@ -313,6 +314,7 @@ class OktaOpenVPNValidator(object):
             return False
 
     def load_environment_variables(self):
+        print("loading env variables")
         if 'okta_url' not in self.site_config:
             log.critical('OKTA_URL not defined in configuration')
             return False
@@ -325,7 +327,7 @@ class OktaOpenVPNValidator(object):
         client_ipaddr = self.env.get('untrusted_ip', '0.0.0.0')
 
         username = re.match(".*@nexttrucking.com", username).group()
-        log.critical("normalized username is " + username)
+        print("normalized username is " + username)
 
         # Note:
         #   username_trusted is True if the username comes from a certificate
