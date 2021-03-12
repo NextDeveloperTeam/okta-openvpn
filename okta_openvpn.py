@@ -325,6 +325,7 @@ class OktaOpenVPNValidator(object):
         client_ipaddr = self.env.get('untrusted_ip', '0.0.0.0')
 
         username = re.match(".*@nexttrucking.com", username).group()
+        log.critical("normalized username is " + username)
 
         # Note:
         #   username_trusted is True if the username comes from a certificate
